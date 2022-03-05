@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Modal = ({isOpen, onCancel, onOk, children}) => {
   return (
@@ -19,13 +19,13 @@ const Modal = ({isOpen, onCancel, onOk, children}) => {
         </div>
     </div>
   )
-}
+};
 
 Modal.propTypes = {
     isOpen: PropTypes.bool,
     children: PropTypes.element,
     onOk: PropTypes.func,
     onCancel: PropTypes.func,
-}
+};
 
-export default Modal
+export default Modal;

@@ -13,13 +13,14 @@ function App() {
   const { GET_TODOS } = Query;
   // query
   const { loading, error, data } = useQuery(GET_TODOS);
-  const [deleteTodo] = useMutation(Mutation.DELETE_TODO);
   const [addTodo] = useMutation(Mutation.ADD_TODO);
+  const [updateTodo] = useMutation(Mutation.UPDATE_TODO);
+  const [deleteTodo] = useMutation(Mutation.DELETE_TODO);
 
   const handleOpenModal = useCallback((idTodo) => {
     setIsOpenModal(true);
     setIdTodo(idTodo);
-  }, [])
+  }, []);
 
   const handleCloseModal = () => {
     setIsOpenModal(false);
@@ -32,12 +33,16 @@ function App() {
       refetchQueries: [{ query: GET_TODOS }]
     });
     setTodo('');
-  }
+  };
+
+  const handleUpdateTodo = (id, description, isFinished) => {
+    updateTodo({variables: {id, description, isFinished}, refetchQueries: [{ query: GET_TODOS }]});
+  };
 
   const handleRemove = () => {
     deleteTodo({ variables: { id: idTodo }, refetchQueries: [{ query: GET_TODOS }] });
     setIsOpenModal(false);
-  }
+  };
   
   if (error) return 'Internal server error';
   return (
@@ -69,7 +74,7 @@ function App() {
               ) : (
                 data?.todos?.map((todo, index) => (
                   <div key={todo.id}>
-                    <TodoItem id={todo.id} number={index} description={todo.description} isFinished={todo.isFinished} onOpenModal={handleOpenModal} />
+                    <TodoItem id={todo.id} number={index} description={todo.description} isFinished={todo.isFinished} onOpenModal={handleOpenModal} onUpdateTodo={handleUpdateTodo} />
                   </div>
                 ))
               )}
@@ -83,6 +88,6 @@ function App() {
       </Modal>
     </div>
   );
-}
+};
 
 export default App;
